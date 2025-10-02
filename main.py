@@ -1,7 +1,6 @@
 import logging
 import os
-from flask import Flask
-app = Flask(__name__)
+from flask import Flask, request
 from telegram import Update
 from telegram.ext import Application, ChatMemberHandler, ContextTypes
 
@@ -12,9 +11,14 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# 🔑 Bot owner ID
-BOT_OWNER_ID = 7124683213  # <-- replace with your Telegram user ID
-TOKEN = os.getenv("8466271055:AAHxdB308HL6kbB4tbm6egj_vXrzjj7zwv8")  # Load from environment variable
+# 🔑 Only this user ID can add the bot
+BOT_OWNER_ID = 7124683213  # Replace with your own Telegram user ID
+
+# ✅ Load token from environment
+TOKEN = os.getenv("8466271055:AAGG5qxIx20Ah59DAh_mDhko6t3NPO_2WQM")
+
+if not TOKEN:
+    raise ValueError("⚠️ BOT_TOKEN is not set. Please add it in Render environment variables.")
 
 # Flask app
 app = Flask(__name__)
@@ -35,11 +39,11 @@ async def check_who_added(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         if adder.id != BOT_OWNER_ID:
             logger.warning(f"❌ {adder.full_name} is NOT the owner. Leaving {chat_title}.")
-            await context.bot.send_message(chat_id, "⚠️ Not my owner. Leaving group.")
+            await context.bot.send_message(chat_id, "⚠️ 机器人检测到不是主人邀请，正在离开群组。")
             await context.bot.leave_chat(chat_id)
         else:
             logger.info(f"✅ Bot added by owner {adder.full_name}. Staying in {chat_title}.")
-            await context.bot.send_message(chat_id, "✅ Bot added by my owner. Ready to work!")
+            await context.bot.send_message(chat_id, "✅ Bot added by my owner. Ready to work here!")
 
 # Add handler
 application.add_handler(ChatMemberHandler(check_who_added, ChatMemberHandler.MY_CHAT_MEMBER))
@@ -53,9 +57,8 @@ async def webhook():
 
 @app.route("/")
 def home():
-    return "Bot is running via Render 🚀"
+    return "Bot is running via webhook! 🚀"
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
-
