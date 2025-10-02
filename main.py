@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 # 🔑 Bot owner ID
 BOT_OWNER_ID = 7124683213  # <-- replace with your Telegram user ID
-TOKEN = os.getenv("8466271055:AAH660pzZSSwVDAx9Wb7p1-jQG1_FqxOGLw")  # Load from environment variable
+TOKEN = os.getenv("8466271055:AAHxdB308HL6kbB4tbm6egj_vXrzjj7zwv8")  # Load from environment variable
 
 # Flask app
 app = Flask(__name__)
@@ -58,3 +58,4 @@ def home():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
