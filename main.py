@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 BOT_OWNER_ID = 7124683213  # Replace with your own Telegram user ID
 
 # ✅ Load token from environment
-TOKEN = os.getenv("8466271055:AAGG5qxIx20Ah59DAh_mDhko6t3NPO_2WQM")
+TOKEN = os.getenv("8466271055:AAGbMuIzq3wfFcDzsZcKhbIwp0ZvoGixU-8")
 
 if not TOKEN:
     raise ValueError("⚠️ BOT_TOKEN is not set. Please add it in Render environment variables.")
@@ -62,3 +62,4 @@ def home():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
